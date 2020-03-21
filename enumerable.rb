@@ -47,7 +47,21 @@ result
         result
     end
 
-    
+    def my_count
+        count = 0
+        my_each do |x|
+            count +=1 if yield x
+        end
+        count
+    end
+
+    def my_map(arr)
+        result = []
+        my_each(arr) do |x|
+            result.push(yield(x))
+        end
+        result
+    end
 
 
 
