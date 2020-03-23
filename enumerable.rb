@@ -64,8 +64,19 @@ result
     end
 
     
+def my_inject (initial=0)
+    i=0
+    total = initial
+    while (i < self.length)
+        total = yield(total, self[i])
+        i = i +1
+    end 
+    total
+end
 
-
+def multiply_els
+    self.my_inject(1) {|total, n|total * n}
+end
 
 
 
