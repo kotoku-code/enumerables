@@ -63,6 +63,14 @@ result
         result
     end
 
+    def my_map(&block)
+        new_result = []
+        self.my_each do |x|
+            new_result.push(block.call(i))
+        end
+        new_result
+    end
+
     
 def my_inject (initial=0)
     i=0
