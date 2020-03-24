@@ -1,29 +1,35 @@
 module Enumerable
-  def my_each(arr)
+  def my_each(block)
     result = []
+    return to_enum unless block_given?
+
     for i in 0..length
-      result.push(yield(arr[i]))
+      result.push(yield(block[i]))
     end
     result
   end
 
-  def my_each_with_index(arr)
+  def my_each_with_index(block)
     result = []
+    return to_enum unless block_given?
     for i in 0..length
-      result.push(yield(arr[i], i))
+      result.push(yield(block[i], i))
     end
     result
   end
 
   def my_select
     result = []
+    return to_enum unless block_given?
     my_each do |x|
       output.push(x) if yield x
     end
     result
+
+    if
   end
 
-  def my_all
+  def my_all?
     result = true
     my_each do |x|
       result = false unless yield x
@@ -55,9 +61,10 @@ module Enumerable
     count
   end
 
-  def my_map(arr)
+  def my_map(block)
     result = []
-    my_each(arr) do |x|
+    return to_enum unless block_given?
+    my_each(block) do |x|
       result.push(yield(x))
     end
     result
@@ -85,3 +92,4 @@ module Enumerable
     self.my_inject(1) { |total, n| total * n }
   end
 end
+
