@@ -1,5 +1,5 @@
 def method()
-    puts ("yo yoyoyoyo" + "" )
+  puts ("yo yoyoyoyo" + "")
 end
 
 puts "crazy times"

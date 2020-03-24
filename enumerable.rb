@@ -12,6 +12,7 @@ module Enumerable
   def my_each_with_index(block)
     result = []
     return to_enum unless block_given?
+
     for i in 0..length
       result.push(yield(block[i], i))
     end
@@ -21,12 +22,11 @@ module Enumerable
   def my_select
     result = []
     return to_enum unless block_given?
+
     my_each do |x|
       output.push(x) if yield x
     end
     result
-
-    if
   end
 
   def my_all?
@@ -64,6 +64,7 @@ module Enumerable
   def my_map(block)
     result = []
     return to_enum unless block_given?
+
     my_each(block) do |x|
       result.push(yield(x))
     end
@@ -92,4 +93,3 @@ module Enumerable
     self.my_inject(1) { |total, n| total * n }
   end
 end
-
