@@ -36,6 +36,12 @@ module Enumerable
     end
     result
   end
+if pattern.is_a? Class
+  my_each do |x|
+    return false unless x.is_a? pattern
+  end
+  true
+end
 
   def my_any?
     result = false
@@ -43,6 +49,12 @@ module Enumerable
       result = false if yield x
     end
     result
+  end
+  if pattern.is_a? Class
+    my_each do |x|
+      return false unless x.is_a? pattern
+    end
+    true
   end
 
   def my_none?
@@ -52,6 +64,12 @@ module Enumerable
     end
     result
   end
+  if pattern.is_a? Class
+    my_each do |x|
+      return false unless x.is_a? pattern
+    end
+    true
+  end
 
   def my_count
     count = 0
@@ -59,6 +77,12 @@ module Enumerable
       count += 1 if yield x
     end
     count
+  end
+  if pattern.is_a? Class
+    my_each do |x|
+      return false unless x.is_a? pattern
+    end
+    true
   end
 
   def my_map(block)
@@ -79,12 +103,17 @@ module Enumerable
     new_result
   end
 
-  def my_inject(initial = 0)
+  def my_inject(initial = 0, sym = :+)
     i = 0
     total = initial
     while (i < self.length)
       total = yield(total, self[i])
       i = i + 1
+
+    
+   unless initial
+     self.my_each {|i| initial = initial.method(sym).call(i)}
+    
     end
     total
   end
@@ -92,4 +121,4 @@ module Enumerable
   def multiply_els
     self.my_inject(1) { |total, n| total * n }
   end
-end
+  end
