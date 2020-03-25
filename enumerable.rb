@@ -113,12 +113,12 @@ module Enumerable
       unless initial
         self.my_each { |i| initial = initial.method(sym).call(i) }
 
-end
+      end
       total
-  end
+    end
 
     def multiply_els
       self.my_inject(1) { |total, n| total * n }
     end
-    end
-
+  end
+end
