@@ -36,12 +36,12 @@ module Enumerable
     end
     result
   end
-if pattern.is_a? Class
-  my_each do |x|
-    return false unless x.is_a? pattern
+  if pattern.is_a? Class
+    my_each do |x|
+      return false unless x.is_a? pattern
+    end
+    true
   end
-  true
-end
 
   def my_any?
     result = false
@@ -110,15 +110,15 @@ end
       total = yield(total, self[i])
       i = i + 1
 
-    
-   unless initial
-     self.my_each {|i| initial = initial.method(sym).call(i)}
-    
-    end
-    total
+      unless initial
+        self.my_each { |i| initial = initial.method(sym).call(i) }
+
+end
+      total
   end
 
-  def multiply_els
-    self.my_inject(1) { |total, n| total * n }
-  end
-  end
+    def multiply_els
+      self.my_inject(1) { |total, n| total * n }
+    end
+    end
+
