@@ -85,7 +85,6 @@ if pattern.is_a? Class
   true
 end
 
-
 def my_map(&block)
   new_result = []
   my_each do |_x|
