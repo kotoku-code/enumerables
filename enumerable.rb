@@ -85,15 +85,6 @@ if pattern.is_a? Class
   true
 end
 
-# def my_map(block)
-#  result = []
-#  return to_enum unless block_given?
-#
-#  my_each(block) do |x|
-#    result.push(yield(x))
-#  end
-#  result
-# end
 
 def my_map(&block)
   new_result = []
