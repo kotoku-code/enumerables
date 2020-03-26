@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module_Enumerable
 def my_each(block)
   result = []
@@ -112,11 +110,11 @@ def my_inject(initial = 0, sym = :+)
     total = yield(total, self[i])
     i += 1
 
-    my_each { |i| initial = initial.method(sym).call(i) } unless initial
+    my_each { |item| initial = initial.method(sym).call(item) } unless initial
     total
   end
+end
 
-  def multiply_els
-    my_inject(1) { |total, n| total * n }
-  end
+def multiply_els
+  my_inject(1) { |total, n| total * n }
 end
