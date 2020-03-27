@@ -36,9 +36,9 @@ module Enumerable
     end
     result
   end
-  if pattern.is_a? Class
+  if attr.is_a? Class
     my_each do |x|
-      return false unless x.is_a? pattern
+      return false unless x.is_a? attr
     end
     true
   end
@@ -50,9 +50,9 @@ module Enumerable
     end
     result
   end
-  if pattern.is_a? Class
+  if attr.is_a? Class
     my_each do |x|
-      return false unless x.is_a? pattern
+      return false unless x.is_a? attr
     end
     true
   end
@@ -64,9 +64,9 @@ module Enumerable
     end
     result
   end
-  if pattern.is_a? Class
+  if attr.is_a? Class
     my_each do |x|
-      return false unless x.is_a? pattern
+      return false unless x.is_a? attr
     end
     true
   end
@@ -78,9 +78,9 @@ module Enumerable
     end
     count
   end
-  if pattern.is_a? Class
+  if attr.is_a? Class
     my_each do |x|
-      return false unless x.is_a? pattern
+      return false unless x.is_a? attr
     end
     true
   end
