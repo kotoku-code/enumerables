@@ -1,7 +1,7 @@
 module Enumerable
   def my_each(block)
     result = []
-    return to_enum unless block_given?
+    return to_enum(:my_each) unless block_given?
 
     (0..length).each do |i|
       result.push(yield(block[i]))
@@ -11,7 +11,7 @@ module Enumerable
 
   def my_each_with_index(block)
     result = []
-    return to_enum unless block_given?
+    return to_enum(:my_each_with_index) unless block_given?
 
     (0..length).each do |i|
       result.push(yield(block[i], i))
@@ -21,7 +21,7 @@ module Enumerable
 
   def my_select
     result = []
-    return to_enum unless block_given?
+    return to_enum(:my_select) unless block_given?
 
     my_each do |x|
       output.push(x) if yield x
@@ -29,14 +29,11 @@ module Enumerable
     result
   end
 
-  def my_all?
-    result = true
+  def my_all?(val = nil)
+  if result = true
     my_each do |x|
       result = false unless yield x
-    end
-    result
-  end
-  if attr.is_a? Class
+     attr.is_a? Class
     my_each do |x|
       return false unless x.is_a? attr
     end
@@ -44,13 +41,10 @@ module Enumerable
   end
 
   def my_any?
-    result = false
+  if  result = false
     my_each do |x|
       result = false if yield x
-    end
-    result
-  end
-  if attr.is_a? Class
+     attr.is_a? Class
     my_each do |x|
       return false unless x.is_a? attr
     end
@@ -58,13 +52,10 @@ module Enumerable
   end
 
   def my_none?
-    result = true
+  if  result = true
     my_each do |x|
       result = false if yield x
-    end
-    result
-  end
-  if attr.is_a? Class
+     attr.is_a? Class
     my_each do |x|
       return false unless x.is_a? attr
     end
@@ -72,13 +63,10 @@ module Enumerable
   end
 
   def my_count
-    count = 0
+ if   count = 0
     my_each do |x|
       count += 1 if yield x
-    end
-    count
-  end
-  if attr.is_a? Class
+     attr.is_a? Class
     my_each do |x|
       return false unless x.is_a? attr
     end
@@ -93,7 +81,7 @@ module Enumerable
     new_result
   end
 
-  def my_inject(initial = 0, sym = :+)
+  def my_inject(initial = nil, sym = nil)
     i = 0
     total = initial
     while i < length
@@ -103,7 +91,8 @@ module Enumerable
       my_each { |item| initial = initial.method(sym).call(item) } unless initial
       total
     end
-  end
+  total
+end
 
   def multiply_els
     my_inject(1) { |total, n| total * n }
