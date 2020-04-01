@@ -51,48 +51,56 @@ module Enumerable
 
 
   def my_any?
-    if result == false
+    if block_given?
       my_each do |x|
-        false if yield x
-      end
-      result
-    end
-  rescue attr.is_a?
-    my_each do |x|
-      return false unless x.is_a? attr
-    end
-    true
-  end
+        false unless yield x
+      elsif val.nil?
+        my_each do |x|
+          false unless x
+        elsif val.class == Class
+          my_each do |x|
+            false unless x.is_a? val
+          elsif val.class == Regexp
+            my_each do |x|
+              false unless val.match? element
+            else
+              my_each do |x|
+                false unless element == val
+              end
+              true
+            end
 
   def my_none?
-    if result == true
+    if block_given?
       my_each do |x|
-        false if yield x
-      end
-      result
-    end
-  rescue attr.is_a?
-    my_each do |x|
-      return false unless x.is_a? attr
-    end
-    true
-  end
+        false unless yield x
+      elsif val.nil?
+        my_each do |x|
+          false unless x
+        elsif val.class == Class
+          my_each do |x|
+            false unless x.is_a? val
+          elsif val.class == Regexp
+            my_each do |x|
+              false unless val.match? element
+            else
+              my_each do |x|
+                false unless element == val
+              end
+              true
+            end
 
   def my_count(_val = nil)
     if count.zero?
       my_each do |x|
-        + 1 if yield x
+      count += 1 if yield x
       end
       count
     end
-  rescue attr.is_a?
-    my_each do |x|
-      return false unless x.is_a? attr
-    end
-    true
-  end
+  
 
   def my_map(&block)
+    return to_enum(:my_map) unless block_given? || proc
     new_result = []
     my_each do |_x|
       new_result.push(block.call(i))
