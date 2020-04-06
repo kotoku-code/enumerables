@@ -24,7 +24,7 @@ module Enumerable
     return to_enum(:my_select) unless block_given?
 
     my_each do |x|
-      output.push(x) if yield x
+      result.push(x) if yield x
     end
     result
   end
@@ -103,21 +103,25 @@ module Enumerable
     return to_enum(:my_map) unless block_given? || proc
     new_result = []
     my_each do |_x|
-      new_result.push(block.call(i))
+      new_result.push(proc.call(i))
     end
     new_result
   end
 
   def my_inject(initial = nil, sym = nil)
-    i = 0
-    total = initial
-    while i < length
-      total = yield(total, self[i])
-      i += 1
+    arr = to_a
 
-      my_each { |item| initial = initial.method(sym).call(item) } unless initial
-      total
+    if initial.nil?
+      x = arr[0]
+      arr[1..-1].my_each { |element| x = yield(x, element) }
+    elsif block_given?
+      x = initial
+      arr.my_each { |element| x = yield(x, element) }
+    elsif initial && sym
+      x = initial
+      arr.my_each { |element| x = x.send(sym, element) }
     end
+    x
   end
 
   def multiply_els
