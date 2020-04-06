@@ -7,10 +7,11 @@ module Enumerable
       yield self[i]
       i += 1
     end
+    self
     end
 
-  def my_each_index
-    return to_enum(:my_each) unless block_given?
+  def my_each_with_index
+    return to_enum(:my_each_with_index) unless block_given?
 
     i = 0
     while i < length
@@ -29,7 +30,28 @@ module Enumerable
     result
   end
 
-  def my_all?
+  def my_all?(val = nil)
+    if block_given?
+      my_each do |x|
+        false unless yield x
+      elsif val.nil?
+        my_each do |x|
+          false unless x
+        elsif val.class == Class
+          my_each do |x|
+            false unless x.is_a? val
+          elsif val.class == Regexp
+            my_each do |x|
+              false unless val.match? element
+            else
+              my_each do |x|
+                false unless element == val
+              end
+              true
+            end
+          
+
+  def my_any? (val = nil)
     if block_given?
       my_each do |x|
         false unless yield x
@@ -49,8 +71,7 @@ module Enumerable
               true
             end
 
-
-  def my_any?
+  def my_none? ( val = nil)
     if block_given?
       my_each do |x|
         false unless yield x
@@ -70,27 +91,7 @@ module Enumerable
               true
             end
 
-  def my_none?
-    if block_given?
-      my_each do |x|
-        false unless yield x
-      elsif val.nil?
-        my_each do |x|
-          false unless x
-        elsif val.class == Class
-          my_each do |x|
-            false unless x.is_a? val
-          elsif val.class == Regexp
-            my_each do |x|
-              false unless val.match? element
-            else
-              my_each do |x|
-                false unless element == val
-              end
-              true
-            end
-
-  def my_count(_val = nil)
+  def my_count
     if count.zero?
       my_each do |x|
       count += 1 if yield x

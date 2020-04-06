@@ -2,7 +2,16 @@
 
 > Building my own description of methods.
 
-
+methods described are:
+-each
+-each_with_index
+-select
+-all
+-any
+-none
+-count
+-map
+-inject
 
 ## Built With
 
