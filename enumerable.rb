@@ -34,15 +34,19 @@ module Enumerable
     if block_given?
       my_each do |x|
         false unless yield x
+      end
       elsif val.nil?
         my_each do |x|
           false unless x
+        end
         elsif val.class == Class
           my_each do |x|
             false unless x.is_a? val
+          end
           elsif val.class == Regexp
             my_each do |x|
               false unless val.match? element
+            end
             else
               my_each do |x|
                 false unless element == val
@@ -55,15 +59,19 @@ module Enumerable
     if block_given?
       my_each do |x|
         false unless yield x
+      end
       elsif val.nil?
         my_each do |x|
           false unless x
+        end
         elsif val.class == Class
           my_each do |x|
             false unless x.is_a? val
+          end
           elsif val.class == Regexp
             my_each do |x|
               false unless val.match? element
+            end
             else
               my_each do |x|
                 false unless element == val
@@ -75,15 +83,19 @@ module Enumerable
     if block_given?
       my_each do |x|
         false unless yield x
+      end
       elsif val.nil?
         my_each do |x|
           false unless x
+        end
         elsif val.class == Class
           my_each do |x|
             false unless x.is_a? val
+          end
           elsif val.class == Regexp
             my_each do |x|
               false unless val.match? element
+            end
             else
               my_each do |x|
                 false unless element == val
@@ -115,9 +127,11 @@ module Enumerable
     if initial.nil?
       x = arr[0]
       arr[1..-1].my_each { |element| x = yield(x, element) }
+    
     elsif block_given?
       x = initial
       arr.my_each { |element| x = yield(x, element) }
+    
     elsif initial && sym
       x = initial
       arr.my_each { |element| x = x.send(sym, element) }
