@@ -8,7 +8,7 @@ module Enumerable
       i += 1
     end
     self
-    end
+  end
 
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
@@ -18,7 +18,8 @@ module Enumerable
       yield(self[i], i)
       i += 1
     end
-    end
+    self
+  end
 
   def my_select
     result = []
@@ -35,85 +36,87 @@ module Enumerable
       my_each do |x|
         false unless yield x
       end
-      elsif val.nil?
-        my_each do |x|
-          false unless x
-        end
-        elsif val.class == Class
-          my_each do |x|
-            false unless x.is_a? val
-          end
-          elsif val.class == Regexp
-            my_each do |x|
-              false unless val.match? element
-            end
-            else
-              my_each do |x|
-                false unless element == val
-              end
-              true
-            end
-          
+    elsif val.nil?
+      my_each do |x|
+        false unless x
+      end
+    elsif val.class == Class
+      my_each do |x|
+        false unless x.is_a? val
+      end
+    elsif val.class == Regexp
+      my_each do |_x|
+        false unless val.match? element
+      end
+    else
+      my_each do |_x|
+        false unless element == val
+      end
+    true
+  end
 
-  def my_any? (val = nil)
+  def my_any?(val = nil)
     if block_given?
       my_each do |x|
         false unless yield x
       end
-      elsif val.nil?
-        my_each do |x|
-          false unless x
-        end
-        elsif val.class == Class
-          my_each do |x|
-            false unless x.is_a? val
-          end
-          elsif val.class == Regexp
-            my_each do |x|
-              false unless val.match? element
-            end
-            else
-              my_each do |x|
-                false unless element == val
-              end
-              true
-            end
+    elsif val.nil?
+      my_each do |x|
+        false unless x
+      end
+    elsif val.class == Class
+      my_each do |x|
+        false unless x.is_a? val
+      end
+    elsif val.class == Regexp
+      my_each do |_x|
+        false unless val.match? element
+      end
+    else
+      my_each do |_x|
+        false unless element == val
+      
+    end
+    true
+  end
 
-  def my_none? ( val = nil)
+  def my_none?(val = nil)
     if block_given?
       my_each do |x|
         false unless yield x
       end
-      elsif val.nil?
-        my_each do |x|
-          false unless x
-        end
-        elsif val.class == Class
-          my_each do |x|
-            false unless x.is_a? val
-          end
-          elsif val.class == Regexp
-            my_each do |x|
-              false unless val.match? element
-            end
-            else
-              my_each do |x|
-                false unless element == val
-              end
-              true
-            end
+    elsif val.nil?
+      my_each do |x|
+        false unless x
+      end
+    elsif val.class == Class
+      my_each do |x|
+        false unless x.is_a? val
+      end
+    elsif val.class == Regexp
+      my_each do |_x|
+        false unless val.match? element
+      end
+    else
+      my_each do |_x|
+        false unless element == val
+      
+    end
+    true
+  end
 
   def my_count
     if count.zero?
       my_each do |x|
-      count += 1 if yield x
-      end
-      count
+        count += 1 if yield x
+      
     end
-  
+    count
+  end
 
-  def my_map(&block)
+  def my_map()
     return to_enum(:my_map) unless block_given? || proc
+
     new_result = []
     my_each do |_x|
       new_result.push(proc.call(i))
@@ -127,11 +130,11 @@ module Enumerable
     if initial.nil?
       x = arr[0]
       arr[1..-1].my_each { |element| x = yield(x, element) }
-    
+
     elsif block_given?
       x = initial
       arr.my_each { |element| x = yield(x, element) }
-    
+
     elsif initial && sym
       x = initial
       arr.my_each { |element| x = x.send(sym, element) }
