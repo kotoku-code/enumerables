@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -52,6 +53,7 @@ module Enumerable
       my_each do |_x|
         false unless element == val
       end
+    end
     true
   end
 
@@ -75,7 +77,7 @@ module Enumerable
     else
       my_each do |_x|
         false unless element == val
-      
+      end
     end
     true
   end
@@ -100,16 +102,17 @@ module Enumerable
     else
       my_each do |_x|
         false unless element == val
-      
+      end
     end
     true
   end
 
   def my_count
+    count = 0
     if count.zero?
       my_each do |x|
         count += 1 if yield x
-      
+      end
     end
     count
   end
@@ -146,3 +149,4 @@ module Enumerable
     my_inject(1) { |total, n| total * n }
   end
 end
+# rubocop:enable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
