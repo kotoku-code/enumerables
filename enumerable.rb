@@ -117,7 +117,7 @@ module Enumerable
     count
   end
 
-  def my_map()
+  def my_map(proc=nil)
     return to_enum(:my_map) unless block_given? || proc
 
     new_result = []
