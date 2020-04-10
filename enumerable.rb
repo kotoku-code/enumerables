@@ -1,6 +1,5 @@
 # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
 module Enumerable
-
   def all_check(pattern, exponent)
     if pattern.is_a? Regexp
       return false if exponent !~ pattern
@@ -59,7 +58,7 @@ module Enumerable
 
   def my_any?(pattern = nil)
     if !block_given?
-      my_any? { |item| pattern.nil? ? item : pattern === item }
+      my_any? { |item| pattern.nil? ? item : pattern == item }
     elsif is_a? Hash
       my_each do |x|
         return true if yield(x[0], x[1])
@@ -73,11 +72,11 @@ module Enumerable
     end
   end
 
-  def my_none?(val = nil)
-    not my_all?
+  def my_none?(*)
+    !my_all?
   end
 
-  def my_count(val=nil)
+  def my_count(*)
     count = 0
     if count.zero?
       my_each do |x|
@@ -124,5 +123,3 @@ def multiply_els(arr)
   arr.my_inject(1) { |product, num| product * num }
 end
 # rubocop:enable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-
-
