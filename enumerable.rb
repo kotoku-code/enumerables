@@ -56,35 +56,47 @@ module Enumerable
     true
   end
 
-  def my_any?(pattern = nil)
-    if !block_given?
-      my_any? { |item| pattern.nil? ? item : pattern == item }
-    elsif is_a? Hash
-      my_each do |x|
-        return true if yield(x[0], x[1])
+  def my_any?(arg = nil, &block)
+    if block_given?
+      my_each do |item|
+        return true if block.call(item)
       end
-      false
+    elsif arg.nil?
+      my_each do |item|
+        return true if item
+      end
+    elsif arg.class == Class
+      my_each do |item|
+        return true if item.is_a?(arg)
+      end
+    elsif arg.class == Regexp
+      my_each do |item|
+        return true if item =~ arg
+      end
     else
-      my_each do |x|
-        return true if yield(x)
-      end
-      false
-    end
-  end
-
-  def my_none?(*)
-    !my_all?
-  end
-
-  def my_count(*)
-    count = 0
-    if count.zero?
-      my_each do |x|
-        count += 1 if x
+      my_each do |item|
+        return true if item == arg
       end
     end
-    count
+    false
   end
+
+  def my_none?(arg = nil, &block)
+    !my_any?(arg, &block)
+  end
+
+
+def my_count(items = nil)
+  count = 0
+  if block_given?
+    my_each { |i| count += 1 if yield(i) == true }
+  elsif items.nil?
+    my_each { count += 1 }
+  else
+    my_each { |i| count += 1 if i == items }
+  end
+  count
+end
 
   def my_map(proc = nil)
     return enum_for(:my_map) unless block_given?
@@ -100,24 +112,30 @@ module Enumerable
     arr
   end
 
-  def my_inject(initial = nil, sym = nil)
-    arr = to_a
 
-    if initial.nil?
-      x = arr[0]
-      arr[1..-1].my_each { |element| x = yield(x, element) }
+def my_inject(initial = nil, arg = nil)
+  arg = initial if arg.nil?
 
-    elsif block_given?
-      x = initial
-      arr.my_each { |element| x = yield(x, element) }
-
-    elsif initial && sym
-      x = initial
-      arr.my_each { |element| x = x.send(sym, element) }
-    end
-    x
+  if initial.nil? || initial.is_a?(Symbol)
+    array = drop(1)
+    initial = to_a[0]
+  else
+    array = to_a
   end
+
+  if block_given?
+    array.my_each do |i|
+      initial = yield(initial, i)
+    end
+  else
+    array.my_each do |i|
+      initial = initial.send(arg, i)
+    end
+  end
+  initial
 end
+end 
+
 
 def multiply_els(arr)
   arr.my_inject(1) { |product, num| product * num }
