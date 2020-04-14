@@ -85,17 +85,17 @@ module Enumerable
     !my_any?(arg, &block)
   end
 
-def my_count(items = nil)
-  count = 0
-  if block_given?
-    my_each { |i| count += 1 if yield(i) == true }
-  elsif items.nil?
-    my_each { count += 1 }
-  else
-    my_each { |i| count += 1 if i == items }
+  def my_count(items = nil)
+    count = 0
+    if block_given?
+      my_each { |i| count += 1 if yield(i) == true }
+    elsif items.nil?
+      my_each { count += 1 }
+    else
+      my_each { |i| count += 1 if i == items }
+    end
+    count
   end
-  count
-end
 
   def my_map(proc = nil)
     return enum_for(:my_map) unless block_given?
@@ -111,27 +111,27 @@ end
     arr
   end
 
-def my_inject(initial = nil, arg = nil)
-  arg = initial if arg.nil?
+  def my_inject(initial = nil, arg = nil)
+    arg = initial if arg.nil?
 
-  if initial.nil? || initial.is_a?(Symbol)
-    array = drop(1)
-    initial = to_a[0]
-  else
-    array = to_a
-  end
+    if initial.nil? || initial.is_a?(Symbol)
+      array = drop(1)
+      initial = to_a[0]
+    else
+      array = to_a
+    end
 
-  if block_given?
-    array.my_each do |i|
-      initial = yield(initial, i)
+    if block_given?
+      array.my_each do |i|
+        initial = yield(initial, i)
+      end
+    else
+      array.my_each do |i|
+        initial = initial.send(arg, i)
+      end
     end
-  else
-    array.my_each do |i|
-      initial = initial.send(arg, i)
-    end
+    initial
   end
-  initial
-end
 end
 
 def multiply_els(arr)
