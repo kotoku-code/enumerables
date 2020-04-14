@@ -85,7 +85,6 @@ module Enumerable
     !my_any?(arg, &block)
   end
 
-
 def my_count(items = nil)
   count = 0
   if block_given?
@@ -112,7 +111,6 @@ end
     arr
   end
 
-
 def my_inject(initial = nil, arg = nil)
   arg = initial if arg.nil?
 
@@ -134,8 +132,7 @@ def my_inject(initial = nil, arg = nil)
   end
   initial
 end
-end 
-
+end
 
 def multiply_els(arr)
   arr.my_inject(1) { |product, num| product * num }
